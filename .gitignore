@@ -1,0 +1,13 @@
+# Notebooks & drafts
+*.ipynb
+notebooks/
+drafts/
+experiments/
+
+# Data
+data/
+*.csv
+*.parquet
+
+# System
+.DS_Store
