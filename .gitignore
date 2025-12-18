@@ -1,4 +1,5 @@
 # Notebooks & drafts
+content/
 *.ipynb
 notebooks/
 drafts/
