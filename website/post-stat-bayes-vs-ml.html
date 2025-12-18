@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Statistical / Bayesian Inference vs. Machine Learning: Rivals or Teammates? — Gökhan Çetinkaya</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A practitioner’s take on when statistical/Bayesian modeling beats ML, when ML beats modeling, and why they’re better as teammates." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <header>
+      <div class="topnav">
+        <a href="index.html" class="pill">gokhancetinkaya.ai</a>
+      </div>
+
+      <h1>Statistical / Bayesian Inference vs. Machine Learning: Rivals or Teammates?</h1>
+      <p class="meta">
+        A short essay on prediction, explanation, and what we actually know.
+      </p>
+    </header>
+
+    <section class="section">
+      <article>
+        <p>There is a long-standing tension in applied data science about <em>how</em> we should reason from data:</p>
+<blockquote><strong>Should we start from explicit statistical models, or let machine-learning systems discover patterns for us?</strong></blockquote>
+<p>You may or may not experience this as an explicit “debate” in daily work. But the tension shows up in design reviews, model choices, and discussions about interpretability, risk, and trust.</p>
+<p>In this post, I’ll argue three things:</p>
+<ul><li>The opposition is often overstated.</li><li>The real distinction is about <strong>what we believe we know</strong> about the data-generating process.</li><li>Statistical / Bayesian inference and machine learning are usually <strong>more useful as teammates than as rivals</strong>.</li></ul>
+<p>I’ll focus on general principles rather than a single worked example; the argument applies broadly to forecasting, risk estimation, experimentation, and decision-support systems.</p>
+        <h2>The hidden assumption behind statistical models</h2>
+<p>Classical statistics and Bayesian inference start from a strong and elegant idea:</p>
+<blockquote><em>Let’s write down a model for how the data is generated.</em></blockquote>
+<p>If your structural assumptions are close to reality, this approach is close to ideal:</p>
+<ul><li>Parameters are interpretable</li><li>Uncertainty is quantified coherently</li><li>Decisions can explicitly trade off risk and reward</li><li>You can reason about <em>why</em> things happen, not just <em>what</em> happens</li></ul>
+<p>In domains where the underlying mechanism is well understood, this isn’t just elegant — it’s the right tool.</p>
+<h2>The uncomfortable reality: we usually don’t know the mechanism</h2>
+<p>Most business systems don’t behave like clean textbook examples.</p>
+<p>Demand, churn, fraud, reliability, or user behavior typically involve:</p>
+<ul><li>Nonlinear effects</li><li>Interactions between variables</li><li>Seasonality and regime changes</li><li>Feedback loops</li><li>Human behavior adapting to the system itself</li></ul>
+<p>So when we specify a neat generative model, what are we really doing?</p>
+<p>We’re making an <strong>assumption</strong> about structure — sometimes informed, sometimes hopeful.</p>
+<p>Bayesian inference is honest about uncertainty <em>conditional on the model</em>. But it cannot protect you from being confidently wrong <strong>about the model itself</strong>.</p>
+<p>A posterior can be well converged, narrow, and beautifully summarized… and still misleading if the assumed structure is far from reality.</p>
+<p>That is not a flaw of Bayesian inference. It is the price of taking models seriously.</p>
+<h2>Why machine learning often wins at prediction</h2>
+<p>Modern ML methods (XGBoost, random forests, neural networks) take a different stance:</p>
+<blockquote><em>Assume very little about how the data is generated; let the data speak through validation.</em></blockquote>
+<p>Instead of committing to a specific mechanism, they emphasize:</p>
+<ul><li>Flexible function approximation</li><li>Empirical risk minimization</li><li>Out-of-sample generalization</li></ul>
+<p>When the true structure is unknown or constantly changing, <strong>flexibility plus validation often beats correctness plus assumptions</strong>.</p>
+<p>A model can be theoretically wrong and still be extremely useful — as long as it generalizes.</p>
+<h2>What do we really mean by “inference”?</h2>
+<p>A lot of confusion comes from overloading the word <em>inference</em>.</p>
+<ul><li><strong>Inference about parameters and mechanisms</strong> → statistical / Bayesian modeling excels</li><li><strong>Inference about future outcomes</strong> → ML often performs better</li></ul>
+<p>When people say “ML doesn’t do inference,” what they often mean is:</p>
+<blockquote>“ML doesn’t explain the world in the way I’d like.”</blockquote>
+<p>That may be true — but explanation and prediction are not the same objective. In business settings, confusing the two can be costly.</p>
+<h2>Where Bayesian methods clearly shine</h2>
+<p>Statistical and Bayesian inference are especially powerful when:</p>
+<ul><li>Data is limited</li><li>Decisions are high-stakes</li><li>Uncertainty must be explicit</li><li>Partial pooling or hierarchy matters</li><li>Interpretability is a requirement, not a luxury</li></ul>
+<p>Typical examples include:</p>
+<ul><li>A/B testing and experimentation</li><li>Reliability and failure-rate modeling</li><li>Risk and capacity planning</li><li>Policy and pricing decisions</li></ul>
+<p>In these cases, point estimates without uncertainty are often worse than useless.</p>
+<h2>Where machine learning shines</h2>
+<p>ML tends to dominate when:</p>
+<ul><li>Data is abundant</li><li>Relationships are complex and evolving</li><li>The cost of structural misspecification is high</li><li>Performance is measured by predictive accuracy or ranking quality</li></ul>
+<p>This covers much of modern applied data science.</p>
+<p>In these settings, insisting on a fully specified generative model is often optimistic at best.</p>
+<h2>The false rivalry: Bayesian vs. ML</h2>
+<p>The most productive framing is not <strong>Bayesian versus ML</strong>, but <strong>Bayesian plus ML</strong>.</p>
+<p>In practice, the two approaches complement each other in many ways:</p>
+<ul><li>Bayesian hyperparameter optimization for ML models</li><li>Bayesian calibration of ML predictions</li><li>Bayesian decision layers on top of ML forecasts</li><li>Hierarchical Bayesian models using ML-based feature representations</li><li>Model ensembles as a pragmatic approximation to Bayesian model averaging</li></ul>
+<p>Many successful ML systems already incorporate Bayesian ideas — often implicitly rather than explicitly.</p>
+<p>For example:</p>
+<ul><li><strong>Regularization</strong> (L1/L2) corresponds closely to putting priors on model parameters.</li><li><strong>Early stopping</strong> acts like an implicit complexity prior.</li><li><strong>Ensembles</strong> can be viewed as a pragmatic approximation to Bayesian model averaging.</li><li><strong>Dropout</strong> in neural networks has a well-known interpretation as approximate Bayesian inference.</li><li><strong>Quantile regression and prediction intervals</strong> are frequently used as practical substitutes for full posterior predictive distributions.</li></ul>
+<p>These systems are not statistical models in the classical sense, but they borrow Bayesian logic whenever uncertainty, robustness, or overfitting become operational concerns.</p>
+<h2>A practical rule of thumb</h2>
+<p>Here is a rule that has served me well in practice:</p>
+<blockquote><strong>If you trust your model structure more than your data, go Bayesian.</strong>  <br/><strong>If you trust your data more than your model structure, go ML.</strong></blockquote>
+<p>And if you’re unsure (which is most of the time):</p>
+<blockquote><strong>Use both, and let validation and decision quality be the judge.</strong></blockquote>
+<h2>Final thought</h2>
+<p>Bayesian inference is about understanding <em>why</em> a system behaves the way it does.</p>
+<p>Machine learning is about making the system behave well <em>tomorrow</em> — even if our understanding of <em>why</em> it works remains incomplete.</p>
+<p>In real business problems, you usually need both:</p>
+<ul><li>Models that work</li><li>And models you can reason about when things go wrong</li></ul>
+<p>The real mistake is not choosing the “wrong” approach.</p>
+<p>It’s treating one as a replacement for the other.</p>
+
+    <h2>Further reading</h2>
+
+    <ul>
+      <li>
+        <a href="https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers"
+          target="_blank" rel="noopener">
+          Bayesian Methods for Hackers
+        </a>
+        — Cameron Davidson-Pilon
+      </li>
+
+      <li>
+        <a href="https://civil.colorado.edu/~balajir/CVEN6833/bayes-resources/RM-StatRethink-Bayes.pdf"
+          target="_blank" rel="noopener">
+          <em>Statistical Rethinking</em>
+        </a>
+        — Richard McElreath
+      </li>
+
+      <li>
+        <a href="https://hastie.su.domains/ElemStatLearn/"
+          target="_blank" rel="noopener">
+          <em>The Elements of Statistical Learning</em>
+        </a>
+        — Hastie, Tibshirani, Friedman
+      </li>
+
+      <li>
+        <a href="https://christophm.github.io/interpretable-ml-book/"
+          target="_blank" rel="noopener">
+          <em>Interpretable Machine Learning</em>
+        </a>
+        — Christoph Molnar
+      </li>
+
+      <li>
+        <a href="https://developers.google.com/machine-learning/guides/rules-of-ml"
+          target="_blank" rel="noopener">
+          Google’s <em>Rules of Machine Learning</em>
+        </a>
+      </li>
+    </ul>
+      </article>
+    </section>
+
+    <footer>
+      <p>
+        This site is intentionally simple: no tracking, no pop-ups. Just a place to think clearly about ML, AI, and how they can help real businesses.
+      </p>
+    </footer>
+  </main>
+</body>
+</html>
