@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>From Prediction to Decision: Why Accuracy Is Not Enough — Gökhan Çetinkaya</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Why many ML projects fail at impact: model metrics aren’t business KPIs, and point forecasts aren’t decisions." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <header>
+      <div class="topnav">
+        <a href="index.html" class="pill">gokhancetinkaya.ai</a>
+      </div>
+      <h1>From Prediction to Decision: Why Accuracy Is Not Enough</h1>
+      <p class="meta">Why many ML projects fail at impact: model metrics aren’t business KPIs, and point forecasts aren’t decisions.</p>
+    </header>
+
+    <section class="section">
+      <article>
+        <p>In many applied ML projects, the story goes something like this.</p>
+        <p>A model is trained. Offline metrics look good. Accuracy improves, RMSE drops, AUC climbs. There is a quiet sense of relief: <em>the hard part is done</em>.</p>
+        <p>And yet, once the model is deployed, the business impact is often disappointing. Sometimes it is even negative.</p>
+        <p>This is not because the model is “wrong” in a statistical sense. It is because <strong>a good prediction is not the same thing as a good decision</strong>.</p>
+        <h2>Prediction and decision are different problems</h2>
+        <p>A prediction answers a narrow question:</p>
+        <blockquote>What is likely to happen?</blockquote>
+        <p>A decision answers a very different one:</p>
+        <blockquote>What should we do, given that several things might happen?</blockquote>
+        <p>Machine learning models are usually trained to solve the first problem. Businesses, however, live entirely in the second.</p>
+        <p>Decisions depend on things that rarely appear in a loss function:</p>
+        <ul>
+          <li>asymmetric costs</li>
+          <li>operational constraints</li>
+          <li>service-level targets</li>
+          <li>risk tolerance</li>
+          <li>downstream consequences</li>
+        </ul>
+        <p>None of these are automatically encoded in “accuracy”.</p>
+        <h2>Why accuracy is a weak business objective</h2>
+        <p>Accuracy treats all errors as equal. Business never does.</p>
+        <p>Predicting demand slightly too low may lead to a temporary stockout. Predicting it slightly too high may lock capital in slow-moving inventory for months.</p>
+        <p>From a pure accuracy perspective, these errors might look symmetric. From a business perspective, they are not.</p>
+        <p>This is why teams often end up with models that are technically strong but operationally misaligned.</p>
+        <p>Accuracy optimizes the model’s comfort. Business metrics optimize outcomes.</p>
+        <h2>Metrics and KPIs are related — but not interchangeable</h2>
+        <p>This brings up a recurring confusion in ML projects: the assumption that improving model metrics will automatically improve business KPIs.</p>
+        <p>In practice, the relationship is indirect and domain-specific.</p>
+        <p>If the goal is to reduce warehouse CAPEX, the relevant modeling questions are not just “How accurate is the forecast?” But also:</p>
+        <ul>
+          <li>How uncertain is it?</li>
+          <li>Which SKUs are more expensive to be wrong about?</li>
+          <li>Are errors symmetric across cost, volume, or criticality?</li>
+        </ul>
+        <p>Model metrics matter — but only insofar as they map meaningfully to business objectives. That mapping is a design choice, not an emergent property.</p>
+        <h2>A simple inventory thought experiment</h2>
+        <p>Consider a single SKU.</p>
+        <p>Your model predicts an average monthly demand of 100 units. The forecast is unbiased and historically accurate.</p>
+        <h3>Case 1: low variance</h3>
+        <p>Demand typically fluctuates between 90 and 110 units.</p>
+        <p>Using this forecast, you can hold modest safety stock, achieve a high service level, and keep capital tied up in inventory under control.</p>
+        <p>Business KPIs look healthy.</p>
+        <h3>Case 2: same mean, high variance</h3>
+        <p>Now consider another SKU — similar price, similar volume — but demand fluctuates between 30 and 170 units.</p>
+        <p>The average prediction is still 100. Point accuracy is unchanged.</p>
+        <p>But the business reality is completely different:</p>
+        <ul>
+          <li>safety stock requirements explode</li>
+          <li>stockouts become frequent, or</li>
+          <li>capital usage increases dramatically</li>
+        </ul>
+        <p>From the model’s perspective, nothing changed. From the business perspective, everything did.</p>
+        <p>The difference is not the mean. It is the uncertainty around it.</p>
+        <h2>Thresholds and policies hide in plain sight</h2>
+        <p>Inventory decisions eventually come down to thresholds: reorder points, safety stock levels, service-level targets.</p>
+        <p>These are often treated as technical details, tuned after the model is “done”.</p>
+        <p>In reality, they encode policy decisions:</p>
+        <ul>
+          <li>how much risk the business is willing to accept</li>
+          <li>how costly stockouts are relative to excess inventory</li>
+          <li>how constrained capital really is</li>
+        </ul>
+        <p>When teams argue about thresholds, they are usually arguing about business trade-offs — without explicitly framing them as such.</p>
+        <h2>A decision-first way of thinking</h2>
+        <p>A more robust approach reverses the usual workflow:</p>
+        <ol>
+          <li>Start from the decision and its KPIs</li>
+          <li>Make trade-offs explicit</li>
+          <li>Design model objectives that support those trade-offs</li>
+        </ol>
+        <p>Sometimes that leads to point forecasts. Often, it requires uncertainty estimates, asymmetric losses, or stress scenarios.</p>
+        <p>The model is not the product. The decision system is.</p>
+        <h2>Closing thoughts</h2>
+        <p>Many ML projects struggle not because the models are weak, but because the connection between predictions and decisions is left implicit.</p>
+        <p>Accuracy is useful — but only in context. Uncertainty is inconvenient — but ignoring it is expensive.</p>
+        <p>This is not a purely technical problem. It is a coordination problem across data science, operations, and business teams.</p>
+        <p>When everyone involved understands that prediction is only one input into a larger decision process, ML systems become not just accurate — but genuinely useful.</p>
+
+      </article>
+    </section>
+
+    <footer>
+      <p>
+        This site is intentionally simple: no tracking, no pop-ups. Just a place to think clearly about ML, AI, and how they can help real businesses.
+      </p>
+    </footer>
+  </main>
+</body>
+</html>
