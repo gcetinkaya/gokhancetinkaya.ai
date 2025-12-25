@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Why Uncertainty Matters More Than Accuracy — Gökhan Çetinkaya</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A practical essay on why point forecasts are often insufficient: uncertainty changes decisions and business KPIs, especially in operational settings like inventory planning." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <header>
+      <a href="index.html" class="pill">gokhancetinkaya.ai</a>
+      <h1>Why Uncertainty Matters More Than Accuracy</h1>
+      <p class="muted">An essay on prediction, risk, and why business outcomes often live in the tails.</p>
+    </header>
+
+    <article class="section post">
+      <p>
+        In many applied ML systems, predictions arrive with impressive precision.
+      </p>
+
+      <p>
+        Dashboards show a single number.<br/>
+        Forecasts look stable.<br/>
+        Decisions are made as if the future were neatly summarized by a point estimate.
+      </p>
+
+      <p>
+        This sense of certainty is comforting — and often misleading.
+      </p>
+
+      <p>
+        Because in most real systems, <strong>the most important outcomes are driven not by the average case, but by what happens when things go wrong</strong>.
+      </p>
+
+      <p>
+        It is one thing to say that uncertainty matters in principle.<br/>
+        It is another to see how quickly ignoring it can distort real decisions.
+      </p>
+
+      <p>
+        To make this concrete, consider a deliberately simple operational example — not because real systems are simple, but because simplicity makes the consequences impossible to ignore.
+      </p>
+
+      <h2>Same accuracy, radically different outcomes</h2>
+
+      <p>
+        It is tempting to believe that if two forecasts are equally accurate, they should lead to similar business outcomes.
+      </p>
+
+      <p>
+        In many operational settings, this assumption is quietly wrong.
+      </p>
+
+      <p>
+        Consider a single SKU with an average monthly demand of 100 units.<br/>
+        Suppose we use a simple inventory policy: maintain a fixed base-stock level designed around that average.
+      </p>
+
+      <p>
+        Now imagine two demand regimes.
+      </p>
+
+      <p>
+        In the first, demand fluctuates narrowly around the mean. Month-to-month variation is modest, and extreme outcomes are rare.<br/>
+        In the second, demand is far more volatile. The average is the same, but large deviations occur frequently.
+      </p>
+
+      <p>
+        From the model’s point of view, these two situations can look identical:
+      </p>
+
+      <ul>
+        <li>the point forecast is the same</li>
+        <li>historical accuracy is the same</li>
+        <li>error metrics show no meaningful difference</li>
+      </ul>
+
+      <p>
+        From the business’s point of view, they are not.
+      </p>
+
+      <p>
+        Under the low-variance regime, the inventory policy performs as expected.<br/>
+        Service levels remain high, stockouts are rare, and capital tied up in inventory stays under control.
+      </p>
+
+      <p>
+        Under the high-variance regime, the same policy begins to fail.<br/>
+        Stockouts become frequent, service levels deteriorate, and stockout-related costs dominate overall performance.
+      </p>
+
+      <p>
+        What is striking is not just the direction of the effect, but its magnitude.
+      </p>
+
+      <p>
+        With the same forecast accuracy and the same inventory policy, stockout costs can increase by orders of magnitude when variance is underestimated.
+        Holding costs may remain unchanged, giving a false sense of stability, while the true business impact deteriorates rapidly.
+      </p>
+
+      <p>
+        Nothing about the average demand changed.<br/>
+        Nothing about the model’s point accuracy changed.
+      </p>
+
+      <p>
+        What changed was the <strong>uncertainty around the prediction</strong> — and with it, the quality of the decision.
+      </p>
+
+      <p>
+        This is the core problem with treating point forecasts as sufficient.<br/>
+        They collapse fundamentally different risk profiles into the same number, and in doing so, hide the very events that dominate business outcomes.
+      </p>
+
+      <p class="muted">
+        A minimal, reproducible simulation supporting this example is available here:
+        <a href="examples/inventory_uncertainty_sim/examples_post3_uncertainty_sim.ipynb" target="_blank" rel="noopener">
+          inventory uncertainty simulation notebook
+        </a>.
+        The notebook is intentionally simple and focuses on business KPIs rather than modeling sophistication.
+      </p>
+
+      <h2>“But of course you should adjust order levels”</h2>
+
+      <p>
+        A common reaction to examples like this is:
+      </p>
+
+      <blockquote>
+        “Well, obviously you should set different order levels based on observed demand variance.”
+      </blockquote>
+
+      <p>
+        That is correct — but it quietly assumes something important.
+      </p>
+
+      <p>
+        It assumes that variance has been:
+      </p>
+
+      <ul>
+        <li>estimated reliably</li>
+        <li>surfaced explicitly</li>
+        <li>trusted by downstream systems</li>
+        <li>and incorporated into decision logic</li>
+      </ul>
+
+      <p>
+        In many ML-centric workflows, this does not happen.
+      </p>
+
+      <p>
+        Point forecasts flow easily into planning systems.<br/>
+        Uncertainty often does not.
+      </p>
+
+      <p>
+        Even when historical variance is taken into account, it is frequently treated as stationary — an assumption that breaks under regime changes,
+        new product introductions, promotions, or supply disruptions.
+      </p>
+
+      <p>
+        Operational constraints make this even harder. In many planning organizations, orders are placed only on specific days of the week.
+        This is a perfectly rational simplification — but it implicitly accepts higher risk for items that would benefit from more frequent replenishment.
+      </p>
+
+      <p>
+        Similarly:
+      </p>
+
+      <ul>
+        <li>lead times differ across suppliers</li>
+        <li>minimum order quantities vary</li>
+        <li>contractual agreements and incentive schemes change over time</li>
+      </ul>
+
+      <p>
+        Each of these factors interacts with uncertainty. Ignoring them does not just reduce model elegance — it changes business outcomes.
+      </p>
+
+      <h2>Decisions live in the tails</h2>
+
+      <p>
+        Most operational pain does not come from typical days.
+      </p>
+
+      <p>
+        It comes from:
+      </p>
+
+      <ul>
+        <li>stockouts that break service-level agreements</li>
+        <li>capacity overruns that force costly interventions</li>
+        <li>rare events that dominate financial outcomes</li>
+      </ul>
+
+      <p>
+        These are tail events.<br/>
+        They are infrequent, but they matter disproportionately.
+      </p>
+
+      <p>
+        Optimizing for the mean while ignoring the tails is a reliable way to build systems that look good on paper and fail under stress.
+      </p>
+
+      <h2>Where uncertainty actually comes from</h2>
+
+      <p>
+        It is tempting to think of uncertainty as something we “add” to a model later.
+      </p>
+
+      <p>
+        In reality, uncertainty is already there.
+      </p>
+
+      <p>
+        It comes from:
+      </p>
+
+      <ul>
+        <li>inherent randomness in the system</li>
+        <li>limited and noisy data</li>
+        <li>simplifying assumptions in the model</li>
+        <li>regime changes and seasonality</li>
+        <li>extrapolating beyond observed behavior</li>
+      </ul>
+
+      <p>
+        At a deeper level, this is not just a modeling inconvenience. It reflects how the world actually works.
+      </p>
+
+      <p>
+        The idea that perfect prediction is possible — given enough data and computation — goes back to a deterministic worldview sometimes associated with
+        <em>Laplace’s Demon</em> (see:
+        <a href="https://en.wikipedia.org/wiki/Laplace%27s_demon" target="_blank" rel="noopener">Wikipedia</a>).
+        We now know that this idealized observer does not exist in practice, and in many systems, not even in principle.
+      </p>
+
+      <p>
+        In real operational environments, uncertainty is not something we failed to eliminate.<br/>
+        It is something we must actively reason about.
+      </p>
+
+      <h2>Why point-optimized models create false confidence</h2>
+
+      <p>
+        Many ML models are trained to minimize error.
+      </p>
+
+      <p>
+        This is reasonable — but incomplete.
+      </p>
+
+      <p>
+        Most loss functions reward predictions that are:
+      </p>
+
+      <ul>
+        <li>sharp</li>
+        <li>confident</li>
+        <li>close to the observed value</li>
+      </ul>
+
+      <p>
+        They do not penalize:
+      </p>
+
+      <ul>
+        <li>overconfidence</li>
+        <li>underestimated variance</li>
+        <li>fragile behavior under distribution shift</li>
+      </ul>
+
+      <p>
+        The result is a system that appears precise, while quietly underestimating risk.
+      </p>
+
+      <p>
+        This is not a failure of machine learning.<br/>
+        It is a consequence of optimizing the wrong objective for the decision at hand.
+      </p>
+
+      <h2>Reasoning under uncertainty does not require perfect models</h2>
+
+      <p>
+        At this point, some readers may think:
+      </p>
+
+      <blockquote>
+        “Do we need fully probabilistic or Bayesian models for all of this?”
+      </blockquote>
+
+      <p>
+        Not necessarily.
+      </p>
+
+      <p>
+        In practice, teams often work with approximations:
+      </p>
+
+      <ul>
+        <li>prediction intervals</li>
+        <li>quantile forecasts</li>
+        <li>model ensembles</li>
+        <li>scenario analysis</li>
+        <li>stress testing</li>
+      </ul>
+
+      <p>
+        None of these are perfect.<br/>
+        All of them are better than pretending uncertainty does not exist.
+      </p>
+
+      <p>
+        The goal is not mathematical purity.<br/>
+        It is better decisions.
+      </p>
+
+      <h2>Uncertainty belongs in decisions, not dashboards</h2>
+
+      <p>
+        A common mistake is to treat uncertainty as a reporting artifact.
+      </p>
+
+      <p>
+        Something to visualize.<br/>
+        Something to explain after the fact.
+      </p>
+
+      <p>
+        In reality, uncertainty should shape decisions directly:
+      </p>
+
+      <ul>
+        <li>reorder points</li>
+        <li>buffers and reserves</li>
+        <li>thresholds and escalation rules</li>
+        <li>policies for rare but costly events</li>
+      </ul>
+
+      <p>
+        Uncertainty matters only insofar as it changes what you do.
+      </p>
+
+      <h2>Closing thoughts</h2>
+
+      <p>
+        Accuracy tells you how close your predictions were to the past.<br/>
+        Uncertainty tells you how fragile your decisions may be in the future.
+      </p>
+
+      <p>
+        Ignoring uncertainty does not make systems simpler.<br/>
+        It makes them brittle.
+      </p>
+
+      <p>
+        In applied ML, the question is rarely whether uncertainty exists.
+      </p>
+
+      <p>
+        It is whether we are willing to acknowledge it — and design systems that can live with it.
+      </p>
+
+    </article>
+
+    <footer>
+      <p>
+        <a href="index.html">Home</a>
+      </p>
+      <p class="muted">
+        This site is intentionally simple: no tracking, no pop-ups.
+        Just a place to think clearly about ML, AI, and decision-making.
+      </p>
+    </footer>
+    
+  </main>
+</body>
+</html>
