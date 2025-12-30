@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>From Models to Decisions: A Practical Mental Model for Applied ML — Gökhan Çetinkaya</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A conceptual framework for applied machine learning that separates prediction, uncertainty, dynamics, and decisions — and explains why many ML systems fail despite good models." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <header>
+      <a href="index.html" class="pill">gokhancetinkaya.ai</a>
+      <h1>From Models to Decisions: A Practical Mental Model for Applied ML</h1>
+      <p class="muted">
+        A synthesis essay on prediction, uncertainty, dynamics, and choice in real-world ML systems.
+      </p>
+    </header>
+
+    <article class="section post">
+
+      <p>
+        Applied machine learning has matured enough that most teams no longer fail at the basics.
+      </p>
+
+      <p>
+        Data pipelines exist. Models train reliably. Validation is understood. Metrics are tracked.
+      </p>
+
+      <p>
+        And yet, a strange pattern persists: systems that are technically correct still produce outcomes that feel misaligned with business reality.
+      </p>
+
+      <p>
+        Not catastrophically wrong. Just… persistently disappointing.
+      </p>
+
+      <p>
+        This is not a tooling problem. It is a framing problem.
+      </p>
+
+      <h2>The missing distinction</h2>
+
+      <p>
+        In many ML projects, three very different questions get quietly blended into one:
+      </p>
+
+      <ol>
+        <li><em>What can we predict?</em></li>
+        <li><em>How confident are we?</em></li>
+        <li><em>What should we do about it?</em></li>
+      </ol>
+
+      <p>
+        These questions sound adjacent, but they live at different conceptual levels. Treating them as interchangeable is the root cause of much confusion in applied ML.
+      </p>
+
+      <p>
+        The failure is not mathematical. It is architectural — in how we think.
+      </p>
+
+      <h2>A four-layer mental model</h2>
+
+      <p>
+        A useful way to regain clarity is to separate ML-powered systems into four conceptual layers.
+      </p>
+
+      <p>
+        Not software layers. Thinking layers.
+      </p>
+
+<pre>
+[ Decisions ]
+      ↑
+[ Dynamics / Simulation ]
+      ↑
+[ Uncertainty ]
+      ↑
+[ Prediction ]
+</pre>
+
+      <p>
+        Each layer answers a fundamentally different question.
+      </p>
+
+      <h3>Prediction: what patterns exist?</h3>
+
+      <p>
+        This is the domain of machine learning.
+      </p>
+
+      <p>
+        Forecasts, classifications, scores, rankings. We ask: given historical data, what tends to happen?
+      </p>
+
+      <p>
+        This layer is descriptive. Powerful. Necessary.
+      </p>
+
+      <p>
+        But by itself, it is silent about consequences.
+      </p>
+
+      <h3>Uncertainty: how wrong could we be?</h3>
+
+      <p>
+        Here we admit epistemic limits.
+      </p>
+
+      <p>
+        Distributions instead of points. Intervals instead of single numbers. Ensembles, Bayesian posteriors, empirical quantiles.
+      </p>
+
+      <p>
+        This layer does not make decisions safer. It makes ignorance visible.
+      </p>
+
+      <p>
+        Which is uncomfortable — but essential.
+      </p>
+
+      <h3>Dynamics: what happens when we act?</h3>
+
+      <p>
+        Now time enters the picture.
+      </p>
+
+      <p>
+        Actions change the system. Systems react to themselves. Delays, accumulation, thresholds, feedback loops appear.
+      </p>
+
+      <p>
+        This is the layer where simulation belongs.
+      </p>
+
+      <p>
+        Not to predict the future precisely, but to explore plausible trajectories once decisions interact with uncertainty over time.
+      </p>
+
+      <p>
+        This layer is where many “good models” quietly fail.
+      </p>
+
+      <h3>Decisions: what trade-offs are we willing to make?</h3>
+
+      <p>
+        Only at this layer do questions become genuinely business-relevant.
+      </p>
+
+      <p>
+        Costs, constraints, incentives, service levels, risk tolerance.
+      </p>
+
+      <p>
+        Not what is accurate, but what is acceptable.
+      </p>
+
+      <p>
+        Decisions are policies, not predictions. They embed values — explicitly or not.
+      </p>
+
+      <h2>Why this separation matters</h2>
+
+      <p>
+        Most applied ML systems collapse these layers.
+      </p>
+
+      <p>
+        Prediction stands in for decision. Accuracy stands in for value. Automation stands in for judgment.
+      </p>
+
+      <p>
+        This works until it doesn’t.
+      </p>
+
+      <p>
+        When outcomes drift, teams often react by improving the prediction layer — adding features, retraining models, tightening metrics.
+      </p>
+
+      <p>
+        Sometimes that helps. Often it doesn’t, because the mismatch lives higher up.
+      </p>
+
+      <h2>A different way to measure progress</h2>
+
+      <p>
+        Once you adopt this layered view, progress looks different.
+      </p>
+
+      <p>
+        You stop asking: “Is the model good enough?”
+      </p>
+
+      <p>
+        And start asking:
+      </p>
+
+      <ul>
+        <li>Is this decision robust across plausible futures?</li>
+        <li>Which assumptions actually drive outcomes?</li>
+        <li>Where does risk concentrate, and who bears it?</li>
+      </ul>
+
+      <p>
+        This is a shift from model-centric thinking to system-centric thinking.
+      </p>
+
+      <h2>A reframing for experienced practitioners</h2>
+
+      <p>
+        With experience, many ML practitioners arrive at an uncomfortable realization:
+      </p>
+
+      <p>
+        The most expensive mistakes are not technical.
+      </p>
+
+      <p>
+        They are conceptual.
+      </p>
+
+      <p>
+        They come from deploying systems that behave well in expectation but poorly in reality — once time, feedback, and incentives are allowed to act.
+      </p>
+
+      <p>
+        Reducing this kind of regret requires more than better models. It requires better framing of the decision problem itself.
+      </p>
+
+      <h2>How the pieces complement each other</h2>
+
+      <p>
+        Seen through this lens, familiar methods fall into place:
+      </p>
+
+      <ul>
+        <li>Machine learning extracts signal.</li>
+        <li>Bayesian thinking disciplines uncertainty.</li>
+        <li>Simulation explores consequences.</li>
+        <li>Optimization formalizes choice.</li>
+      </ul>
+
+      <p>
+        None is sufficient alone. Each becomes dangerous when mistaken for the whole.
+      </p>
+
+      <h2>Closing thoughts</h2>
+
+      <p>
+        This is not a call to abandon ML rigor.
+      </p>
+
+      <p>
+        It is a call to place it inside a broader decision framework.
+      </p>
+
+      <p>
+        Strong models matter. But models do not make decisions — systems do.
+      </p>
+
+      <p>
+        If applied ML is to mature beyond impressive demos and fragile automations, it needs clearer boundaries between prediction, uncertainty, dynamics, and choice.
+      </p>
+
+      <p>
+        That separation is not academic. It is the difference between systems that merely work — and systems that endure.
+      </p>
+
+    </article>
+
+    <footer>
+      <p><a href="index.html">Home</a></p>
+      <p class="muted">
+        This site is intentionally simple: no tracking, no pop-ups.
+        Just a place to think clearly about ML, AI, and decision-making.
+      </p>
+    </footer>
+  </main>
+</body>
+</html>
